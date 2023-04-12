@@ -919,11 +919,6 @@ void Context::setTemporaryStoragePolicy(const String & policy_name, size_t max_s
 
 void Context::setTemporaryStorageInCache(const String & cache_disk_name, size_t max_size)
 {
-    auto lock = getLock();
-
-    if (shared->root_temp_data_on_disk)
-        throw Exception(ErrorCodes::LOGICAL_ERROR, "Temporary storage is already set");
-
     auto disk_ptr = getDisk(cache_disk_name);
     if (!disk_ptr)
         throw Exception(ErrorCodes::NO_ELEMENTS_IN_CONFIG, "Disk '{}' is not found", cache_disk_name);
@@ -937,6 +932,11 @@ void Context::setTemporaryStorageInCache(const String & cache_disk_name, size_t 
         throw Exception(ErrorCodes::NO_ELEMENTS_IN_CONFIG, "Cache '{}' is not found", file_cache->getBasePath());
 
     LOG_DEBUG(shared->log, "Using file cache ({}) for temporary files", file_cache->getBasePath());
+
+    auto lock = getLock();
+
+    if (shared->root_temp_data_on_disk)
+        throw Exception(ErrorCodes::LOGICAL_ERROR, "Temporary storage is already set");
 
     shared->tmp_path = file_cache->getBasePath();
     VolumePtr volume = createLocalSingleDiskVolume(shared->tmp_path);
