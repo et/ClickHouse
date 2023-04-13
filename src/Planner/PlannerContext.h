@@ -82,7 +82,7 @@ public:
     std::promise<SetPtr> getPromiseToBuildSet() const { return std::move(promise_to_build_set); }
 
 private:
-    mutable std::promise<SetPtr> promise_to_build_set; // FIXME: mutable is a hack
+    mutable std::promise<SetPtr> promise_to_build_set; // TODO: mutable is a hack
     FutureSet set;
 
     QueryTreeNodePtr subquery_node;

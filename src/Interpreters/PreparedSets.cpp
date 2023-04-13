@@ -75,7 +75,7 @@ SubqueryForSet & PreparedSets::createOrGetSubquery(const String & subquery_id, c
     /// In that case several PreparedSetKey would share same subquery and set
     /// Not sure if it's really possible case (maybe for distributed query when set was filled by external table?)
     if (subquery.set.isValid())
-        sets[key] = subquery.set; // TODO:
+        sets[key] = subquery.set;
     else
     {
         subquery.set_in_progress = std::make_shared<Set>(set_size_limit, false, transform_null_in);

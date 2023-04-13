@@ -142,8 +142,6 @@ using SharedSet = std::shared_future<SetPtr>;
 /// This set cache is used to avoid building the same set multiple times. It is different from PreparedSets in way that
 /// it can be used across multiple queries. One use case is when we execute the same mutation on multiple parts. In this
 /// case each part is processed by a separate mutation task but they can share the same set.
-
-/// TODO: need to distinguish between sets with and w/o set_elements!
 class PreparedSetsCache
 {
 public:
